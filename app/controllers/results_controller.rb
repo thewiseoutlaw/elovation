@@ -4,7 +4,9 @@ class ResultsController < ApplicationController
   def create
     max_count = 3
     win_count = params[:result][:teams][:win_count].to_i
-    lose_count = 3-win_count
+    puts "*** result #{params[:result][:teams]}"
+    puts "** WINCOUNT #{win_count}"
+    lose_count = max_count-win_count
     for i in 0..win_count
       response = ResultService.create(@game, params[:result])
     end
