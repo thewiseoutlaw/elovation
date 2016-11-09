@@ -2,13 +2,14 @@ class ResultsController < ApplicationController
   before_action :set_game
 
   def create
-    response = ResultService.create(@game, params[:result])
-
-    if response.success?
-      redirect_to game_path(@game)
-    else
-      @result = response.result
-      render :new
+    params[:results].each do |result|
+      response = ResultService.create(@game, result)
+      if response.success?
+        redirect_to game_path(@game)
+      else
+        @result = response.result
+        render :new
+      end
     end
   end
 
@@ -21,8 +22,15 @@ class ResultsController < ApplicationController
   end
 
   def new
-    @result = Result.new
-    (@game.max_number_of_teams || 20).times{|i| @result.teams.build rank: i}
+    #Matches are out of 3 games
+    MATCH=3
+    @results=[]
+    for y in 0..MATCH
+      @results.push(Result.new)
+    end
+    @results.each do |result|
+      (@game.max_number_of_teams || 10).times{|i| result.teams.build rank: i}
+    end
   end
 
   private
