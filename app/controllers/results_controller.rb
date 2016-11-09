@@ -7,17 +7,19 @@ class ResultsController < ApplicationController
     puts "*** result #{params[:result][:teams]}"
     puts "** WINCOUNT #{win_count}"
     lose_count = max_count-win_count
-    for i in 0..win_count
+    for i in 0...win_count
       response = ResultService.create(@game, params[:result])
     end
-    for i in 0..lose_count
-      win_team = params[:result][:teams][0]
-      lose_team = params[:result][:teams][1]
-      params[:result][:teams][0]=lose_team
-      params[:result][:teams][1]=win_team
+    for i in 0...lose_count
+      win_team = params[:result][:teams]["0"]
+      win_team.delete("relation")
+      lose_team = params[:result][:teams]["1"]
+      params[:result][:teams]["0"]=lose_team
+      params[:result][:teams]["0"]["relation"]="defeats"
+      params[:result][:teams]["1"]=win_team
       response = ResultService.create(@game, params[:result])
     end
-    response = ResultService.create(@game, params[:result])
+
     if response.success?
       redirect_to game_path(@game)
     else
