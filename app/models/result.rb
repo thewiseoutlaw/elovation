@@ -11,9 +11,9 @@ class Result < ActiveRecord::Base
       result.errors.add(:teams, "must have a winner")
     end
 
-    # if result.players.size != players.uniq.size
-    #   result.errors.add(:teams, "must have unique players")
-    # end
+    if result.players.size != players.uniq.size
+      result.errors.add(:teams, "must have unique players")
+    end
 
     if result.teams.size < result.game.min_number_of_teams
       result.errors.add(:teams, "must have at least #{result.game.min_number_of_teams} teams")

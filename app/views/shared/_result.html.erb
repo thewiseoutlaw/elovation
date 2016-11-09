@@ -1,4 +1,4 @@
-<li class="<%= 'new' if result.most_recent? -%>">
+<li class="<%= result.most_recent? ? 'new' : 'old' -%>">
   <% result.teams.each_with_index do |team, i| %>
     <% team.players.each do |winner| %>
       <%= link_to winner, class: 'player' do %>
