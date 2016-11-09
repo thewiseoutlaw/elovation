@@ -11,8 +11,8 @@
         <%= hidden_field_tag "result[teams][#{index}][relation]", :defeats, {} %>
         Defeats:
       <% end %>
+      <%= select "result[teams]", :win_count, [2,3], {} %>
     <% end %>
-    <%= select "result[teams][#{index}][relation]", :count, [0,1,2,3], {} %>
   <% end %>
 
   <div class='form-actions'>

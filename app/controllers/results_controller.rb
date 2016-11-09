@@ -2,8 +2,20 @@ class ResultsController < ApplicationController
   before_action :set_game
 
   def create
+    max_count = 3
+    win_count = params[:result][:teams][:win_count].to_i
+    lose_count = 3-win_count
+    for i in 0..win_count
+      response = ResultService.create(@game, params[:result])
+    end
+    for i in 0..lose_count
+      win_team = params[:result][:teams][0]
+      lose_team = params[:result][:teams][1]
+      params[:result][:teams][0]=lose_team
+      params[:result][:teams][1]=win_team
+      response = ResultService.create(@game, params[:result])
+    end
     response = ResultService.create(@game, params[:result])
-
     if response.success?
       redirect_to game_path(@game)
     else
