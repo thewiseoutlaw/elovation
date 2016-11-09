@@ -3,15 +3,16 @@
 
   <% @result.teams.each.with_index do |team, index| %>
     <%= select "result[teams][#{index}]", "players", player_options, {include_blank: ''}, class: "players", multiple: @game.max_number_of_players_per_team != 1, "data-placeholder" => "Team #{index + 1}" %>
-
+    Games won by winning team.
     <% if index != @result.teams.size - 1 %>
       <% if @game.allow_ties %>
         <%= select "result[teams][#{index}]", :relation, ["defeats", "ties"], {} %>
       <% else %>
         <%= hidden_field_tag "result[teams][#{index}][relation]", :defeats, {} %>
+        Wins:<%= select_tag 'win_count', options_for_select([2,3], 2) %>
+        and
         Defeats:
       <% end %>
-      <%= select_tag 'win_count', options_for_select([2,3], 2) %>
     <% end %>
   <% end %>
 
