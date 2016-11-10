@@ -12,7 +12,8 @@ class GamesController < ApplicationController
   end
 
   def destroy
-    @game.destroy if @game.results.empty?
+    @game.results.each{|r| r.destroy}
+    @game.destroy
     redirect_to dashboard_path
   end
 
